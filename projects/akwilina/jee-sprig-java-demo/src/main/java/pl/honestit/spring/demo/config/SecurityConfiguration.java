@@ -23,14 +23,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests()
 				.antMatchers("/register").permitAll() //na ścieżce register wszyscy (premit all) mogą wejść (zalogowani i nie)
+				.antMatchers("/login").permitAll()
+				.antMatchers("/logout_page.html").permitAll()
 				.anyRequest().authenticated() //domyślna ścieżka, oczekiwanie zalogowania przy wejściu na wszystkie inne strony,
 				.and()
 			.formLogin()
-				.defaultSuccessUrl("/index.html") //strona domyślna. Jeśli wszedł na inną stronę niż logowania, to wyświetli się tamta, ale jeżeli nie, to wyswietli się ta.
-				//aktywowaniu logowania (pod adresem /login) poprzez automatyczny formularz logowania Spring Security z opcją domyślnej strony sukcesu /index.html,)
+				.loginPage("/login")//teraz przekierowuje na nasz kontroler obsługujący zrobioną przez nas stronę stronę logowania
+				.defaultSuccessUrl("/index.html") 
 				.and()
 			.logout()
-				.logoutSuccessUrl("/index.html");//aktywowanie wylogowania (pod adresem /logout) automatycznie przeprowadzanego przez Spring Security.
+				.logoutSuccessUrl("/logout_page.html")
+				.and()
+			.csrf()
+				.disable();
 	}
 	
 	@Bean
