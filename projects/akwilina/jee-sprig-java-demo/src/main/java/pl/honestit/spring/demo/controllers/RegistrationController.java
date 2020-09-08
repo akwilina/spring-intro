@@ -42,6 +42,6 @@ public class RegistrationController {
     	userRepository.save(user);
     	log.debug("Użytkownik zapisany w bazie: {}", user);
     	
-    	return "redirect:/index.html";
+    	return "/WEB-INF/views/successful_registration.jsp";
     }
 }
