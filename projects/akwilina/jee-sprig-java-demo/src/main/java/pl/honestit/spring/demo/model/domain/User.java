@@ -29,5 +29,16 @@ public class User {
 	@Column(name = "last_name", nullable= false)
 	private String lastName;
 	private Boolean active;
-
+	
+	
+	public User(Long id, String username, String firstName, String lastName, String password, Boolean active) {
+		this.active = active;
+		this.firstName = firstName;
+		this.id = id;
+		this.lastName = lastName;
+		this.password= password;
+		this.username = username;
+	}
+	
+	public User() {}
 }
