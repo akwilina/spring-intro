@@ -1,15 +1,22 @@
 package pl.honestit.spring.demo.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
+import lombok.RequiredArgsConstructor;
 
+@Configuration
+@RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+	private final DataSource dataSource;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -29,5 +36,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+        	.inMemoryAuthentication()
+        		.withUser("user").password("{noop}pass").roles("USER");
+        auth	
+        	.jdbcAuthentication()
+        	.dataSource(dataSource) //do jakiej bazy ma się odwołać
+        	.passwordEncoder(passwordEncoder())//żeby spring wiedział jakimechanizm szyfrowania haseł ma wybrać
+        	.usersByUsernameQuery("SELECT username, password, active FROM users WHERE username = ?")//to zapytanie, które spring ma wykonać na bazie, żeby uzyskać informacje o użytkowniku
+        	.authoritiesByUsernameQuery("SELECT username, 'ROLE_USER' FROM users WHERE username = ?");//użytokwnicy mogą mieć różne uprawnienia. ROLE_USER oznacza, że na sztywno wpisaliśmy rolę uytkownika jako user.
 	}
 }
