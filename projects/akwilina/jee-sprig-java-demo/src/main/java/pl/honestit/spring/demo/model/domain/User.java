@@ -24,9 +24,9 @@ public class User {
 	private String username;
 	@Column(nullable = false)
 	private String password;
-	@Column(name = "first_name")
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
-	@Column(name = "last_name")
+	@Column(name = "last_name", nullable= false)
 	private String lastName;
 	private Boolean active;
 
