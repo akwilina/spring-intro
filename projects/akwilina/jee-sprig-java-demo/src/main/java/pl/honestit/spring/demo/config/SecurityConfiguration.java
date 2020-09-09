@@ -30,10 +30,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.and()
 			.formLogin()
 				.loginPage("/login")//teraz przekierowuje na nasz kontroler obsługujący zrobioną przez nas stronę stronę logowania
-				.defaultSuccessUrl("/index.html") 
+				.defaultSuccessUrl("/") 
 				.and()
 			.logout()
-				.logoutSuccessUrl("/logout_page.html")
+				.logoutSuccessUrl("/")
 				.and()
 			.csrf()
 				.disable();
