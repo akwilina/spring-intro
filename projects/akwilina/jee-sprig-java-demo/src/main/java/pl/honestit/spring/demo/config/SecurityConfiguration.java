@@ -22,6 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()
+				.antMatchers("/").permitAll()
 				.antMatchers("/register").permitAll() //na ścieżce register wszyscy (premit all) mogą wejść (zalogowani i nie)
 				.antMatchers("/login").permitAll()
 				.antMatchers("/logout_page.html").permitAll()

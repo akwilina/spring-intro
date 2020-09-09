@@ -25,6 +25,6 @@ public class HomePageController {
 		
 		model.addAttribute("adverts", listOfAllSortedAdverts );
 		
-		return "home_page";
+		return "/WEB-INF/views/home_page.jsp";
 	}
 }
